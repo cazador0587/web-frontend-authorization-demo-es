@@ -5,11 +5,26 @@ import Login from "./Login";
 import MyProfile from "./MyProfile";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
+import * as auth from "../utils/auth";
 import "./styles/App.css";
 
 function App() {
   // eslint-disable-next-line no-unused-vars
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleRegistration = ({
+    username,
+    email,
+    password,
+    confirmPassword, }) => {
+    if (password === confirmPassword) {
+      auth.register(username, email, password)
+        .then(() => {
+          console.log("Registration successful! Please log in.");
+        })
+        .catch(console.error)
+    }
+  };
   
   return (
     <Routes>
@@ -33,7 +48,7 @@ function App() {
         path="/register"
         element={
           <div className="registerContainer">
-            <Register />
+            <Register handleRegistration={handleRegistration} />
           </div>
         }
       />
