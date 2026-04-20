@@ -1,5 +1,5 @@
 import{ useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Ducks from "./Ducks";
 import Login from "./Login";
 import MyProfile from "./MyProfile";
@@ -11,6 +11,7 @@ import "./styles/App.css";
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegistration = ({
     username,
@@ -20,7 +21,8 @@ function App() {
     if (password === confirmPassword) {
       auth.register(username, email, password)
         .then(() => {
-          console.log("Registration successful! Please log in.");
+          console.log("Registration successful!");
+          navigate("/login");
         })
         .catch(console.error)
     }
