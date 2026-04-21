@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import{ useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Ducks from "./Ducks";
@@ -89,7 +90,7 @@ const handleLogin = ({ username, password }) => {
         path="/my-profile"
         element={
           <ProtectedRoute isLoggedIn={isLoggedIn}>
-            <MyProfile userData={userData}/>
+            <MyProfile userData={userData} />
           </ProtectedRoute>
         }
       />
@@ -97,7 +98,7 @@ const handleLogin = ({ username, password }) => {
         path="/login"
         element={
           <div className="loginContainer">
-            <Login />
+            <Login handleLogin={handleLogin} />
           </div>
         }
       />
@@ -117,15 +118,6 @@ const handleLogin = ({ username, password }) => {
           ) : (
             <Navigate to="/login" replace />
           )
-        }
-      />
-      {/* Pasa el controlador al componente Login. */}
-      <Route
-        path="*"
-        element={
-          <div className="loginContainer">
-            <Login handleLogin={handleLogin} />
-          </div>
         }
       />
     </Routes>
