@@ -6,6 +6,8 @@ import MyProfile from "./MyProfile";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from "../utils/auth";
+import * as api from "../utils/api";
+import { setToken, getToken } from "../utils/token";
 import "./styles/App.css";
 
 function App() {
@@ -33,14 +35,6 @@ function App() {
     }
   };
 
-useEffect(() => {
-  const jwt = getToken();
-    
-  if (!jwt) {
-    return;
-  }
-}, []);
-  
 const handleLogin = ({ username, password }) => {
   if (!username || !password) {
     return;
@@ -61,6 +55,25 @@ const handleLogin = ({ username, password }) => {
     .catch(console.error);
 };
 
+  useEffect(() => {
+    const jwt = getToken();
+
+    if (!jwt) {
+      return;
+    }
+
+    // Llama a la función, pasándole el JWT.
+    api
+      .getUserInfo(jwt)
+      .then(({ username, email }) => {
+        // si la respuesta es exitosa, inicia la sesión del usuario, guarda sus
+        // datos en el estado y lo dirige a /ducks.
+        setIsLoggedIn(true);
+        setUserData({ username, email });
+        navigate("/ducks");
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <Routes>
@@ -108,7 +121,7 @@ const handleLogin = ({ username, password }) => {
       />
       {/* Pasa el controlador al componente Login. */}
       <Route
-        path="/login"
+        path="*"
         element={
           <div className="loginContainer">
             <Login handleLogin={handleLogin} />
