@@ -33,6 +33,14 @@ function App() {
     }
   };
 
+useEffect(() => {
+  const jwt = getToken();
+    
+  if (!jwt) {
+    return;
+  }
+}, []);
+  
 const handleLogin = ({ username, password }) => {
   if (!username || !password) {
     return;
@@ -43,6 +51,8 @@ const handleLogin = ({ username, password }) => {
     .then((data) => {
       // Verifica que se incluyó un jwt antes de iniciar la sesión del usuario.
       if (data.jwt) {
+        // Guarda el token en el almacenamiento local
+        setToken(data.jwt);
         setUserData(data.user); // guardar los datos de usuario en el estado
         setIsLoggedIn(true); // inicia la sesión del usuario
         navigate("/ducks"); // enviarlo a /ducks
