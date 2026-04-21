@@ -16,11 +16,6 @@ function App() {
 
   const navigate = useNavigate();
 
-  const handleLogin = ({ username, password }) => {
-    if (!username || !password) {
-      return;
-    }
-
   const handleRegistration = ({
     username,
     email,
@@ -38,12 +33,24 @@ function App() {
     }
   };
 
-  // handleLogin acepta un parámetro: un objeto con dos propiedades.
-  const handleLogin = ({ username, password }) => {
-    // si el nombre de usuario o la contraseña están vacíos, no se envía la solicitud.
-    if (!username || !password) {
-      return;
-    }
+const handleLogin = ({ username, password }) => {
+  if (!username || !password) {
+    return;
+  }
+
+  auth
+    .authorize(username, password)
+    .then((data) => {
+      // Verifica que se incluyó un jwt antes de iniciar la sesión del usuario.
+      if (data.jwt) {
+        setUserData(data.user); // guardar los datos de usuario en el estado
+        setIsLoggedIn(true); // inicia la sesión del usuario
+        navigate("/ducks"); // enviarlo a /ducks
+      }
+    })
+    .catch(console.error);
+};
+
 
   return (
     <Routes>
@@ -59,7 +66,7 @@ function App() {
         path="/my-profile"
         element={
           <ProtectedRoute isLoggedIn={isLoggedIn}>
-            <MyProfile />
+            <MyProfile userData={userData}/>
           </ProtectedRoute>
         }
       />

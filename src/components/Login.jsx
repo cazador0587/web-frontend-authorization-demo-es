@@ -3,7 +3,7 @@ import { useState } from "react";
 import Logo from "./Logo";
 import "./styles/Login.css";
 
-const Login = () => {
+const Login = ({ handleLogin }) => {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -65,6 +65,6 @@ const Login = () => {
       </div>
     </div>
   );
-};;
+};
 
 export default Login;
