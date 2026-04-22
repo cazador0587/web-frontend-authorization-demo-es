@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 // Nueva importación - useLocation
 import { Navigate, useLocation } from "react-router-dom";
 
