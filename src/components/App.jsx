@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import{ useState, useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
+import AppContext from "../contexts/AppContext";
 import Ducks from "./Ducks";
 import Login from "./Login";
 import MyProfile from "./MyProfile";
@@ -9,7 +10,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import * as auth from "../utils/auth";
 import * as api from "../utils/api";
 import { setToken, getToken } from "../utils/token";
-import AppContext from "../contexts/AppContext";
 import "./styles/App.css";
 
 function App() {
@@ -87,13 +87,13 @@ const handleLogin = ({ username, password }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ isLoggedIn }}>
+    <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       <Routes>
         <Route
           path="/ducks"
           element={
             <ProtectedRoute>
-              <Ducks setIsLoggedIn={setIsLoggedIn} />
+              <Ducks />
             </ProtectedRoute>
           }
         />
@@ -101,7 +101,7 @@ const handleLogin = ({ username, password }) => {
           path="/my-profile"
           element={
             <ProtectedRoute>
-              <MyProfile userData={userData} setIsLoggedIn={setIsLoggedIn} />
+              <MyProfile userData={userData} />
             </ProtectedRoute>
           }
         />
@@ -111,7 +111,7 @@ const handleLogin = ({ username, password }) => {
         <Route
           path="/login"
           element={
-            <ProtectedRoute isLoggedIn={isLoggedIn} anonymous>
+            <ProtectedRoute anonymous>
               <div className="loginContainer">
                 <Login handleLogin={handleLogin} />
               </div>
@@ -124,7 +124,7 @@ const handleLogin = ({ username, password }) => {
         <Route
           path="/register"
           element={
-            <ProtectedRoute isLoggedIn={isLoggedIn} anonymous>
+            <ProtectedRoute anonymous>
               <div className="registerContainer">
                 <Register handleRegistration={handleRegistration} />
               </div>

@@ -1,16 +1,21 @@
 // Nueva importación - useNavigate
+// Nueva importación - useContext
+import { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 // Nueva importación
+import AppContext from "../contexts/AppContext";
 import { removeToken } from "../utils/token";
 import Logo from "./Logo";
 import "./styles/NavBar.css";
 
 // Especificar setIsLoggedIn como una propiedad. ¡No olvides pasar
 // setIsLoggedIn como una propiedad del componente App!
-function NavBar(setIsLoggedIn) {
+function NavBar() {
   // Invocar el hook.
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useContext(AppContext);
+
 
   // La función signOut elimina el token del almacenamiento
   // local, los envía de vuelta a la página de inicio de sesión, y

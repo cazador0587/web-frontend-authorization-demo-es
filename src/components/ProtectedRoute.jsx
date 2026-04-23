@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
 // Nueva importación - useLocation
 // Nueva importación - useContext
